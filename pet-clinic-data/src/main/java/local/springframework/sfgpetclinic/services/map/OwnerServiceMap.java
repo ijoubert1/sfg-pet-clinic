@@ -4,11 +4,11 @@ import local.springframework.sfgpetclinic.model.Owner;
 import local.springframework.sfgpetclinic.services.OwnerService;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
+import java.util.Collection;
 @Service
 public class OwnerServiceMap extends AbstractMapService<Owner, Long> implements OwnerService{
     @Override
-    public Set<Owner> findAll() {
+    public Collection<Owner> findAll() {
         return super.findAll();
     }
 

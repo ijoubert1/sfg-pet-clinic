@@ -4,11 +4,11 @@ import local.springframework.sfgpetclinic.model.Vet;
 import local.springframework.sfgpetclinic.services.VetService;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
+import java.util.Collection;
 @Service
 public class VetServiceMap extends AbstractMapService<Vet, Long> implements VetService {
     @Override
-    public Set<Vet> findAll() {
+    public Collection<Vet> findAll() {
         return super.findAll();
     }
 
