@@ -1,10 +1,10 @@
 package local.springframework.sfgpetclinic.services;
 
-import java.util.Collection;
+import java.util.Set;
 
 public interface CrudService<T, ID> {
 
-    Collection<T> findAll();
+    Set<T> findAll();
     T findById(ID id);
     T save(T object);
     void delete(T object);
