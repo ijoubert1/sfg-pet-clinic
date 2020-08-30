@@ -1,10 +1,7 @@
 package local.springframework.sfgpetclinic.bootstrap;
 
 import local.springframework.sfgpetclinic.model.*;
-import local.springframework.sfgpetclinic.services.OwnerService;
-import local.springframework.sfgpetclinic.services.PetTypeService;
-import local.springframework.sfgpetclinic.services.SpecialtyService;
-import local.springframework.sfgpetclinic.services.VetService;
+import local.springframework.sfgpetclinic.services.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -16,12 +13,14 @@ public class DataLoader implements CommandLineRunner {
     private final VetService vetService;
     private final PetTypeService petTypeService;
     private final SpecialtyService specialtyService;
+    private final VisitService visitService;
 
-    public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService, SpecialtyService specialtyService) {
+    public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService, SpecialtyService specialtyService, VisitService visitService) {
         this.ownerService = ownerService;
         this.vetService = vetService;
         this.petTypeService = petTypeService;
         this.specialtyService = specialtyService;
+        this.visitService = visitService;
     }
 
     @Override
@@ -88,6 +87,19 @@ public class DataLoader implements CommandLineRunner {
         ownerService.save(owner2);
 
         System.out.println("Loaded Owners...");
+
+        Visit catVisit = new Visit();
+        catVisit.setDate(LocalDate.now());
+        catVisit.setDescription("Sneezy Kitty");
+        catVisit.setPet(fionasPet);
+        visitService.save(catVisit);
+
+        Visit dogVisit = new Visit();
+        dogVisit.setDate(LocalDate.now());
+        dogVisit.setDescription("Bath");
+        dogVisit.setPet(mikesPet);
+        visitService.save(dogVisit);
+        System.out.println("Loaded Visits...");
 
         Vet vet1 = new Vet();
         vet1.setFirstName("Sam");
