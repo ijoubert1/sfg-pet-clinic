@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -37,12 +38,12 @@ class OwnerSDJPAServiceTest {
 
     @BeforeEach
     void setUp() {
-        Owner owner = Owner.builder().id(id).lastName(lastName).build();
+        owner = Owner.builder().id(id).lastName(lastName).build();
     }
 
     @Test
     void findByLastName() {
-        when(service.findByLastName(anyString())).thenReturn(owner);
+        when(ownerRepository.findByLastName(anyString())).thenReturn(owner);
 
         Owner found =  service.findByLastName(lastName);
         assertNotNull(found);
@@ -61,7 +62,7 @@ class OwnerSDJPAServiceTest {
 
     @Test
     void findById() {
-        when(service.findById(anyLong())).thenReturn(owner);
+        when(ownerRepository.findById(anyLong())).thenReturn(Optional.of(owner));
 
         Owner found = service.findById(id);
         assertNotNull(found);
@@ -81,12 +82,12 @@ class OwnerSDJPAServiceTest {
     @Test
     void delete() {
         service.delete(owner);
-        verify(service, times(1)).delete(any());
+        verify(ownerRepository, times(1)).delete(any());
     }
 
     @Test
     void deleteById() {
         service.deleteById(id);
-        verify(service, times(1)).deleteById(anyLong());
+        verify(ownerRepository, times(1)).deleteById(anyLong());
     }
 }
