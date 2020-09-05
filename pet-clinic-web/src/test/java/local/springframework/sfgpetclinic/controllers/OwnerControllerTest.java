@@ -15,7 +15,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -53,4 +56,21 @@ class OwnerControllerTest {
     void findOwners() {
         assertEquals("notimplemented", controller.findOwners());
     }
+
+    /*@GetMapping("/{ownerId}")
+    public String showOwner(@PathVariable Long ownerId, Model model){
+        model.addAttribute("owner", ownerService.findById(ownerId));
+        return "owners/ownerDetails";
+    }*/
+
+    @Test
+    void showOwner() throws Exception {
+        Owner o1 = Owner.builder().id(3l).build();
+        when(service.findById(anyLong())).thenReturn(o1);
+        mockMvc.perform(get("/owners/123"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("owners/ownerDetails"))
+                .andExpect(model().attribute("owner", hasProperty("id", is(3l))));
+    }
 }
+
