@@ -17,7 +17,6 @@ import java.util.Set;
 
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -53,15 +52,12 @@ class OwnerControllerTest {
     }
 
     @Test
-    void findOwners() {
-        assertEquals("notimplemented", controller.findOwners());
+    void findOwners() throws Exception {
+        mockMvc.perform(get("/find"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("owners/findOwner"))
+                .andExpect(model().attribute("owners", IsCollectionWithSize.hasSize(1)));
     }
-
-    /*@GetMapping("/{ownerId}")
-    public String showOwner(@PathVariable Long ownerId, Model model){
-        model.addAttribute("owner", ownerService.findById(ownerId));
-        return "owners/ownerDetails";
-    }*/
 
     @Test
     void showOwner() throws Exception {
