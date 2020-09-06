@@ -2,6 +2,7 @@ package local.springframework.sfgpetclinic.controllers;
 
 import local.springframework.sfgpetclinic.model.Owner;
 import local.springframework.sfgpetclinic.services.OwnerService;
+import org.assertj.core.util.Lists;
 import org.hamcrest.collection.IsCollectionWithSize;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,6 +19,7 @@ import java.util.Set;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -44,19 +46,18 @@ class OwnerControllerTest {
 
     @Test
     void listOwners() throws Exception {
-        when(service.findAll()).thenReturn(owners);
+        when(service.findAllByLastNameLike(anyString())).thenReturn(Lists.newArrayList(owners));
         mockMvc.perform(get("/owners"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("owners/index"))
-                .andExpect(model().attribute("owners", IsCollectionWithSize.hasSize(2)));
+                .andExpect(view().name("owners/ownersList"))
+                .andExpect(model().attribute("selections", IsCollectionWithSize.hasSize(2)));
     }
 
     @Test
     void findOwners() throws Exception {
-        mockMvc.perform(get("/find"))
+        mockMvc.perform(get("/owners/find"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("owners/findOwner"))
-                .andExpect(model().attribute("owners", IsCollectionWithSize.hasSize(1)));
+                .andExpect(view().name("owners/findOwner"));
     }
 
     @Test
